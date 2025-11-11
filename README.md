@@ -174,3 +174,105 @@ Of course. Here is a list of preferred technologies for developing a full-stack 
 *   **Logging:** **FluentBit** for log collection and forwarding to **OpenSearch**.
 *   **MLOps:** **MLflow** for experiment tracking, model registry, and managing prompt versions.
 *   **Data Lineage:** **OpenLineage** to track data provenance throughout the pipeline.
+
+## Root Project Directory (legal-rag-platform/)
+
+```
+
+legal-rag-platform/
+├── data-pipeline/
+├── backend/
+└── frontend/
+
+```
+
+### Data Pipeline & Ingestion (/data-pipeline)
+This directory contains all code for the Airflow DAGs, processing scripts, and ML models.
+```
+data-pipeline/
+├── dags/                          # Apache Airflow Directed Acyclic Graphs
+│   ├── document_ingestion_dag.py
+│   └── embedding_update_dag.py
+├── scripts/                       # Core processing logic
+│   ├── document_ingestor.py
+│   ├── chunking_strategies.py     # (e.g., recursive, semantic)
+│   ├── embedding_generator.py
+│   └── quality_validator.py
+├── models/                        # ML Model management
+│   ├── embedding_model/           # Local copy of sentence-transformers model
+│   └── mlflow_model_registry/     # Configuration for MLflow tracking
+├── config/
+│   ├── airflow.cfg
+│   └── pipeline_config.yaml       # Chunk size, embedding model name, etc.
+└── requirements.txt
+```
+
+### Backend API & Services (/backend)
+
+This follows a standard Python FastAPI structure, organized by domains or components.
+
+```
+backend/
+├── app/
+│   ├── api/                       # Route handlers
+│   │   ├── endpoints/
+│   │   │   ├── chat.py
+│   │   │   ├── documents.py
+│   │   │   └── health.py
+│   │   └── dependencies.py        # Auth, DB connections
+│   ├── core/                      # Application configuration
+│   │   ├── config.py
+│   │   └── security.py
+│   ├── models/                    # Pydantic models (schemas)
+│   │   ├── chat_models.py
+│   │   └── document_models.py
+│   ├── services/                  # Business logic layer
+│   │   ├── chat_service.py
+│   │   ├── retrieval_service.py   # RAG orchestration logic
+│   │   └── vector_store_client.py
+│   └── utils/                     # Helper functions
+│       ├── logger.py
+│       └── monitoring.py
+├── tests/                         # Unit and integration tests
+├── Dockerfile
+└── requirements.txt
+```
+
+### Frontend React UI (/frontend)
+
+A standard React application structure built with TypeScript.
+
+```
+frontend/
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+├── src/
+│   ├── components/                # Reusable UI components
+│   │   ├── common/
+│   │   │   ├── Header.tsx
+│   │   │   └── SearchBar.tsx
+│   │   └── chat/
+│   │       ├── ChatInterface.tsx
+│   │       └── MessageList.tsx
+│   ├── pages/                     # Main pages/views
+│   │   ├── ChatPage.tsx
+│   │   └── SearchPage.tsx
+│   ├── services/                  # API client calls
+│   │   └── apiClient.ts
+│   ├── hooks/                     # Custom React hooks
+│   │   └── useChat.ts
+│   ├── contexts/                  # React context for state
+│   │   └── AuthContext.tsx
+│   ├── types/                     # TypeScript type definitions
+│   │   └── index.ts
+│   ├── utils/                     # Frontend helpers
+│   ├── App.tsx
+│   └── index.tsx
+├── package.json
+├── tsconfig.json
+└── Dockerfile
+```
+## Repository 
+
+**PRIVATE**

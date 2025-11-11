@@ -134,3 +134,43 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 - Following extraction, documents undergo intelligent chunking strategies tailored to legal semantics—such as respecting section boundaries, clauses, and headings—to maintain contextual integrity. Each chunk is then passed through a validation and quality check gate to flag extraction errors or corrupted files, ensuring only clean data proceeds.
 
 - Finally, validated chunks are processed by an embedding model (hosted in a secure, internal registry like MLflow) to generate vector representations. The original text chunks, their associated vectors, and all metadata (client, matter ID, source file) are then synchronously written to the secure document store and vector database, respectively, completing an auditable and traceable ingestion cycle.
+- 
+## Data and Backend Platforms
+
+Of course. Here is a list of preferred technologies for developing a full-stack RAG system in a regulated environment, concluding with user consumption via a React UI.
+
+### Data & Backend Platform
+*   **Ingestion & Orchestration:** **Apache Airflow** (for robust, schedulable, and monitorable pipelines).
+*   **Text Extraction:** **Apache Tika** (mature and reliable for various document formats).
+*   **Chunking/Processing:** **Python** with custom logic and frameworks like **LangChain** or **LlamaIndex**.
+*   **Embedding Model:** **sentence-transformers** (all-MiniLM-L6-v2 for balance of speed/size, then upgrade to a larger model).
+*   **Vector Database:** **Pinecone** (managed cloud service) or **Chroma** (self-hosted, good for open-source).
+*   **LLM Gateway/API:** **Azure OpenAI** (for enterprise-grade security, compliance, and managed infrastructure) or a self-hosted model via **vLLM**.
+*   **Document Source of Truth:** **AWS S3** (with encryption) or **Azure Blob Storage**.
+*   **Metadata & Audit Store:** **OpenSearch** (for powerful search and analytics on logs and metadata).
+*   **Chat History/Cache:** **Redis** (for low-latency session storage).
+
+### Application & API Layer
+*   **Backend Framework:** **Python (FastAPI)** for high performance, built-in async support, and automatic OpenAPI documentation.
+*   **Orchestration Logic:** **LangChain** or **LlamaIndex** to structure the RAG pipeline.
+*   **API Gateway:** **Kong** or **AWS API Gateway** for routing, authentication, and rate limiting.
+*   **Authentication:** **Okta** or **Azure Active Directory** (enterprise-grade Identity Provider).
+
+### Frontend & Consumption
+*   **UI Framework:** **React** with **TypeScript** for type safety and a component-based architecture.
+*   **State Management:** **React Query (TanStack Query)** for efficient server-state synchronization.
+*   **UI Library:** **Material-UI (MUI)** or **Ant Design** for a professional, pre-built component set.
+*   **HTTP Client:** **Axios** for robust API calls.
+
+### Deployment & Infrastructure
+*   **Containerization:** **Docker**.
+*   **Orchestration:** **Kubernetes** (managed service like **EKS** or **AKS**).
+*   **Infrastructure as Code (IaC):** **Terraform**.
+*   **CI/CD:** **GitHub Actions** or **GitLab CI**.
+
+### Security, Monitoring & MLOps
+*   **Secrets Management:** **HashiCorp Vault** or **AWS Secrets Manager**.
+*   **Monitoring & Alerting:** **Prometheus** for metrics, **Grafana** for dashboards, and **PagerDuty** for alerts.
+*   **Logging:** **FluentBit** for log collection and forwarding to **OpenSearch**.
+*   **MLOps:** **MLflow** for experiment tracking, model registry, and managing prompt versions.
+*   **Data Lineage:** **OpenLineage** to track data provenance throughout the pipeline.

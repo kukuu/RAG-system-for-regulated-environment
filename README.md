@@ -19,11 +19,11 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 |  | Web UI (React)      |        | Internal Portal     |        | API Client         |   |
 |  | (TLS 1.3 + JWT)     |        | (TLS 1.3 + JWT)     |        | (mTLS + API Key)   |   |
 |  +---------------------+        +---------------------+        +--------------------+   |
-|           |                              |                              |                |
-+-----------|------------------------------|------------------------------|----------------+
+|           |                              |                              |               |
++-----------|------------------------------|------------------------------|---------------+
             |                              |                              |
             v                              v                              v
-+-----------|------------------------------|------------------------------|----------------+
++-----------|------------------------------|------------------------------|---------------+
 |                                API GATEWAY & SECURITY LAYER                             |
 |                                                                                         |
 |  +----------------------------------------------------------------------------+         |
@@ -32,8 +32,8 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 |  +----------------------------------------------------------------------------+         |
 |                                                                                         |
 |                                +-------------------+                                    |
-|                                |  Identity Provider |                                    |
-|                                |    (e.g., Okta)    |                                    |
+|                                |  Identity Provider |                                   |
+|                                |    (e.g., Okta)    |                                   |
 |                                +-------------------+                                    |
 +--------------------------------------------------------------------------+--------------+
                                                                            |
@@ -46,8 +46,8 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 |  | (Python/Java)    |        |  (LangChain/     |        | (Redis)                  |   |
 |  +------------------+        |   LLamaIndex)    |        +--------------------------+   |
 |           |                  +------------------+                    |                  |
-|           |                          |                              |                  |
-|           v                          v                              v                  |
+|           |                          |                              |                   |
+|           v                          v                              v                   |
 |  +------------------+        +------------------+        +--------------------------+   |
 |  | Vector Search    |        |   LLM Gateway    |        |   Audit Logging Service  |   |
 |  | Service (FAISS,  |        | (Python)         |        | (FluentBit ->            |   |
@@ -62,26 +62,26 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 |                                                                                         |
 |  +------------------+  +------------+  +------------------+  +----------------------+   |
 |  | Vector Database  |  | LLM API    |  | Doc. Store       |  | Audit & Metadata     |   |
-|  | (Pinecone,       |  | (Azure OpenAI,| (S3 - Encrypted   |  | Store (OpenSearch)   |   |
+|  | (Pinecone,       |  | (Azure OpenAI,| (S3 - Encrypted   |  | Store (OpenSearch)   |  |
 |  |  Chroma)         |  |  GPT-4)    |  |  at-rest)        |  +----------------------+   |
-|  +------------------+  +------------+  +---------^--------+            ^               |
-|           |                  |                   |                     |               |
-|           +------------------+-------------------+---------------------+               |
-|                                      |                                                 |
-|                                      v                                                 |
-|  +----------------------------------------------------------------------------+        |
-|  |                      Ingestion & ETL Pipeline (Airflow)                    |        |
-|  |                                                                            |        |
-|  | +----------------+  +-----------------+  +-----------------+  +---------+  |        |
-|  | | Secure File    |->| Text Extraction |->| Chunking &      |->| Embedding|--+--------+
-|  | | Ingest (S3)    |  | (Apache Tika)   |  | Metadata        |  | Model   |  |        |
-|  | +----------------+  +-----------------+  |  Extraction     |  | (sentence-|        |
-|  |                                |         +-----------------+  | transformers)|
-|  |                                |         +-----------------+  +---------+  |        |
-|  |                                +-------->| Validation &   |            |  |        |
-|  |                                          | Quality Check  |<-----------+  |        |
-|  |                                          +-----------------+               |        |
-|  +----------------------------------------------------------------------------+        |
+|  +------------------+  +------------+  +---------^--------+            ^                |
+|           |                  |                   |                     |                |
+|           +------------------+-------------------+---------------------+                |
+|                                      |                                                  |
+|                                      v                                                  |
+|  +----------------------------------------------------------------------------+         |
+|  |                      Ingestion & ETL Pipeline (Airflow)                    |         |
+|  |                                                                            |         |
+|  | +----------------+  +-----------------+  +-----------------+  +---------+  |         |
+|  | | Secure File    |->| Text Extraction |->| Chunking &      |->| Embedding  |+--------+
+|  | | Ingest (S3)    |  | (Apache Tika)   |  | Metadata        |  | Model   |  |         |
+|  | +----------------+  +-----------------+  |  Extraction     |  | (sentence-|          |
+|  |                                |         +-----------------+  | transformers)        |  
+|  |                                |         +-----------------+  +---------+  |         |
+|  |                                +-------->| Validation &    |            |  |         |
+|  |                                          | Quality Check   |<-----------+  |         |
+|  |                                          +-----------------+               |         |
+|  +----------------------------------------------------------------------------+         |
 |                                                                                         |
 +-----------------------------------------------------------------------------------------+
 ```
@@ -91,20 +91,20 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 
 ```
 +--------------------------------------------------------------------------------------+
-|                               MONITORING & GOVERNANCE                                 |
+|                               MONITORING & GOVERNANCE                                |
 |                                                                                      |
-|  +--------------+      +-------------+      +----------------+      +------------+  |
-|  | Prometheus   |      | Grafana     |      | Data Lineage   |      | Alert      |  |
-|  | &            |<---->| &           |<---->| Tool (OpenLineage)|<->| Manager    |  |
-|  | Custom       |      | Dashboards  |      |                |      | (PagerDuty)|  |
-|  | Metrics      |      |             |      |                |      |            |  |
-|  +--------------+      +-------------+      +----------------+      +------------+  |
-|          ^                      ^                      ^                      ^     |
+|  +--------------+      +-------------+      +----------------+      +------------+   |
+|  | Prometheus   |      | Grafana     |      | Data Lineage   |      | Alert      |   |
+|  | &            |<---->| &           |<---->| Tool (OpenLineage)|<->| Manager    |   |
+|  | Custom       |      | Dashboards  |      |                |      | (PagerDuty)|   |
+|  | Metrics      |      |             |      |                |      |            |   |
+|  +--------------+      +-------------+      +----------------+      +------------+   |
+|          ^                      ^                      ^                      ^      |
 +----------|----------------------|----------------------|----------------------|-----+
            |                      |                      |                      |
 +----------|----------------------|----------------------|----------------------|-----+
 |                              CROSS-CUTTING CONCERNS                                 |
-|                                                                                      |
+|                                                                                     |
 |  +----------------------------------------------------------------------------+     |
 |  | SECURITY:                                                                  |     |
 |  | - Network Policies (Zero-Trust)                                            |     |
@@ -112,7 +112,7 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 |  | - Data Encryption (TLS in-transit, AES-256 at-rest, Client-Side Encryption)|     |
 |  | - RBAC and ABAC for all services and data access                           |     |
 |  +----------------------------------------------------------------------------+     |
-|                                                                                      |
+|                                                                                     |
 |  +----------------------------------------------------------------------------+     |
 |  | MLOps & GOVERNANCE:                                                        |     |
 |  | - Model Registry (MLflow): Versioning of Embedding & LLM prompts           |     |
@@ -121,7 +121,7 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 |  | - Immutable Audit Logs for all queries, inputs, and model outputs          |     |
 |  | - Automated Compliance Checks in CI/CD (e.g., license, bias scans)         |     |
 |  +----------------------------------------------------------------------------+     |
-+--------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------+
 ```
 
 ## Data Ingestion and Processing

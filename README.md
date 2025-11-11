@@ -276,3 +276,45 @@ frontend/
 ## Repository 
 
 **PRIVATE**
+
+## Deployment Process (CI/CD)
+
+The deployment is an automated, GitOps-driven pipeline managed via GitHub Actions/GitLab CI and orchestrated with Terraform and Helm.
+
+- Code Commit & Build: A push to the main branch triggers the CI pipeline. The system builds Docker images for the backend (backend/) and frontend (frontend/) services, while the data pipeline (data-pipeline/) is packaged separately.
+
+- Security & Compliance Scan: Images are scanned for vulnerabilities (Trivy) and code is checked for quality and license compliance. The MLflow registry is checked for the approved embedding model version.
+
+- Infrastructure Provisioning: Terraform plans and applies changes to the cloud environment (AWS/Azure), creating the Kubernetes (EKS/AKS) cluster, databases (Pinecone, OpenSearch, Redis), and object storage (S3) if needed.
+
+- Application Deployment: Helm charts are used to deploy the application containers to the Kubernetes cluster. The API Gateway (Kong) is configured with new routes, and secrets are pulled from HashiCorp Vault.
+
+- Data Pipeline Activation: Once the application is healthy, the Apache Airflow DAGs for document ingestion are unpaused, beginning the initial population of the vector database.
+
+### Monitoring Sequence & Procedure
+Monitoring is a continuous, multi-layered feedback loop using a dedicated toolchain.
+
+- Data & Metrics Collection:
+  - Application & Business Metrics: Custom metrics (e.g., query latency, retrieval score, user feedback) are instrumented in the code and scraped by Prometheus.
+  - Infrastructure Metrics: Kubernetes and cloud resource metrics (CPU, memory) are collected automatically.
+  - Logs: All service logs are collected by FluentBit and forwarded to OpenSearch for centralized querying.
+  - Traces: Distributed tracing is implemented for requests moving through the backend services.
+
+- Visualization & Alerting:
+
+  - Grafana dashboards visualize the metrics from Prometheus, providing real-time views of system health, API performance, and RAG quality.
+  - OpenSearch Dashboards are used for deep-dive log analysis and auditing.
+  - Alerts are defined in Prometheus Alertmanager based on SLOs (e.g., high latency, error rate spikes, embedding drift detected by Evidently AI). Critical alerts are routed to PagerDuty for immediate engineer notification.
+
+### Support & Maintenance Procedure
+Support is a tiered, proactive process focused on system longevity and continuous improvement.
+
+- Tier 1 (Initial Response): Alerts are triaged via PagerDuty. Common operational issues (e.g., pod restarts, API gateway timeouts) are resolved according to runbooks.
+
+- Tier 2 (Deep Analysis): For persistent or complex issues (e.g., degrading answer quality, data pipeline failures), engineers use the full monitoring stack—Grafana, OpenSearch, and OpenLineage for data lineage—to diagnose root cause, which could be in the application, infrastructure, or data layer.
+
+- Proactive Maintenance:
+
+  - MLOps: The embedding model is periodically retrained and evaluated in the MLflow staging environment before being promoted to production via the CI/CD pipeline.
+  - Data Management: The Airflow pipeline includes regular DAGs to validate data quality and refresh embeddings.
+  - Patch & Security Management: The CI/CD pipeline automatically applies security patches and updates dependencies in a controlled, auditable manner.

@@ -1,4 +1,4 @@
-# Building a RAG System for regulated  environment .
+# A RAG System for regulated  environment
 
 Building a Retrieval-Augmented Generation (RAG) system for 100,000 documents in a regulated environment like a law firm necessitates an architecture that prioritizes security, accuracy, and auditability above all else. 
 

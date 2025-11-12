@@ -275,7 +275,7 @@ frontend/
 ```
 ## Repository 
 
-**PRIVATE**
+https://github.com/kukuu/RAG-system/tree/main **PRIVATE**
 
 ## Deployment Process (CI/CD)
 

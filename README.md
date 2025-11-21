@@ -134,7 +134,7 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 - Following extraction, documents undergo intelligent chunking strategies tailored to legal semantics—such as respecting section boundaries, clauses, and headings—to maintain contextual integrity. Each chunk is then passed through a validation and quality check gate to flag extraction errors or corrupted files, ensuring only clean data proceeds.
 
 - Finally, validated chunks are processed by an embedding model (hosted in a secure, internal registry like MLflow) to generate vector representations. The original text chunks, their associated vectors, and all metadata (client, matter ID, source file) are then synchronously written to the secure document store and vector database, respectively, completing an auditable and traceable ingestion cycle.
-- 
+
 ## Data and Backend Platforms
 
 Of course. Here is a list of preferred technologies for developing a full-stack RAG system in a regulated environment, concluding with user consumption via a React UI.

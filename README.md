@@ -318,3 +318,6 @@ Support is a tiered, proactive process focused on system longevity and continuou
   - MLOps: The embedding model is periodically retrained and evaluated in the MLflow staging environment before being promoted to production via the CI/CD pipeline.
   - Data Management: The Airflow pipeline includes regular DAGs to validate data quality and refresh embeddings.
   - Patch & Security Management: The CI/CD pipeline automatically applies security patches and updates dependencies in a controlled, auditable manner.
+ 
+## Regulation & Security Compliance
+- https://github.com/kukuu/fintech-open-banking-api/blob/main/banking-best-practices.md

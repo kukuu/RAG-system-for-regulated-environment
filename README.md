@@ -137,7 +137,7 @@ These vectors are stored in a dedicated, encrypted vector database, while the or
 
 ## Data and Backend Platforms
 
-Of course. Here is a list of preferred technologies for developing a full-stack RAG system in a regulated environment, concluding with user consumption via a React UI.
+Below is a list of preferred technologies for developing a full-stack RAG system in a regulated environment, concluding with user consumption via a React UI.
 
 ### Data & Backend Platform
 *   **Ingestion & Orchestration:** **Apache Airflow** (for robust, schedulable, and monitorable pipelines).

@@ -8,7 +8,7 @@ Each document undergoes a meticulous preprocessing stage, including accurate tex
 
 These vectors are stored in a dedicated, encrypted vector database, while the original text chunks are held in a secure, linkable source of truth, ensuring a complete chain of custody for all information.
 
-
+ 
 ## High-Level Architecture for a Regulated RAG System
 
 ```

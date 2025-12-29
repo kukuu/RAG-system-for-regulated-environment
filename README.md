@@ -1,6 +1,6 @@
 # RAG System for regulated  environments
 
-Building a Retrieval-Augmented Generation (RAG) system for 100,000 documents in a regulated environment like a law enforcement firm necessitates an architecture that prioritizes security, accuracy, and auditability above all else. 
+Building a Retrieval-Augmented Generation (RAG) system for 100,000 documents in a regulated environment like  law enforcement firm necessitates an architecture that prioritizes security, accuracy, and auditability above all else. 
 
 The foundation is a robust data pipeline that begins with secure document ingestion from privileged sources (e.g., document management systems like iManage) with strict access controls. 
 
